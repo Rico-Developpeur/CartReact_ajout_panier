@@ -43,20 +43,32 @@ const itemList = [
 
 function App() {
   const [cartArticles, setCartArticles] = React.useState([]);
+
   const handleClick = (even, article) => {
     even.preventDefault();
     /* push */
     setCartArticles([...cartArticles, article]);
   };
-  const handleDelete =
-  console.log(cartArticles);
+
+  
+  const handleDelete = (even, deleteArticle) => {
+    even.preventDefault();
+    //filtre
+    const newArticles = [...cartArticles].filter((article) => article.name !== deleteArticle.name)
+    console.log(newArticles);
+    setCartArticles(newArticles);
+  }
+
+  console.log(cartArticles.length)
+
   return (
     <div className="App">
       <ArticleGroup articles={itemList} sectionName="Article" handleClick={handleClick}/>
-      <ArticleGroup articles={cartArticles} sectionName="Panier" isCart />
-    
-      </div>
+      {/* La condition permet d'afficher le panier que si il y a des articles */}
+      {cartArticles.length === 0 ? null : <ArticleGroup articles={cartArticles} sectionName="Panier" handleClick={handleDelete} isCart />}
+    </div>
   );
 }
+
 
 export default App;
